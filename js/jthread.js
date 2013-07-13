@@ -3,30 +3,58 @@
  *  @author: Sebastian Real
  *  @version: 0.1
  **/
-;(function(w){
+;(function( w ){
 
-function jThread(fn){
-    var bb, blobURL, innerCallback;
+/**
+ *  default error handler
+ *
+ **/
+function defaultErrorHandler(e){
+    alert('ERROR: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
+}
 
-    innerCallback = ["self.onmessage = " + fn.toString() + ";"];
-    bb = new Blob(innerCallback,{ type : "text/javascript" });
-    blobURL = w.URL.createObjectURL(bb);
-    this.thread = new Worker(blobURL);
+/**
+ *  Safari doesn`t have URL attr yet, instead it works with webkitURL
+ *
+ **/
+function getUrl( w ){
+    return ("URL" in w) ? w.URL : w.webkitURL;
+}
+
+function jThread( fn ){
+    var bb, blobURL, workerBody;
+
+    if(typeof fn !== "function"){
+        throw new TypeError("You must send a function as an argument");
+    }
+
+    workerBody = [ 'addEventListener("message",' + fn.toString() + ',false);' ];
+    bb = new Blob( workerBody, { type : "text/javascript" } );
+    blobURL = getUrl(w).createObjectURL( bb );
+
+    this.thread = new Worker( blobURL );
+    this.thread.addEventListener("error", defaultErrorHandler, false);
 }
 
 jThread.prototype = {
     constructor: jThread,
 
-    notify: function(fn){
-        this.thread.addEventListener("message", fn);
+    notify: function( fn ){
+        this.thread.addEventListener( "message", fn, false );
+    },
+
+    handleError: function( fn ){
+        this.thread.removeEventListener( "error", defaultErrorHandler, false );
+        this.thread.addEventListener( "error", fn , false );
     },
 
     start: function(){
-        this.thread.postMessage();
+        //Firefox doesn't allow to send postMessage without args
+        this.thread.postMessage( null );
     },
 
-    sendData: function(data){
-        this.thread.postMessage(data);
+    sendData: function( data ){
+        this.thread.postMessage( data );
     },
 
     kill: function(){
