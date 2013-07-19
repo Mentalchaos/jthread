@@ -5,10 +5,10 @@ Library to work with web workers more easy
 
 Contents
 -----
-*[Creating a Thread](#creating-a-thread)
-*[Receiving data](#receiving-data)
-*[Starting the Thread](#starting-the-thread);
-*[Handle errors](#handle-errors);
+* [Creating a Thread](#creating-a-thread)
+* [Receiving data](#receiving-data)
+* [Starting the Thread](#starting-the-thread)
+* [Handle errors](#handle-errors)
 
 ##Creating a Thread
 
