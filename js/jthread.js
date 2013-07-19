@@ -14,15 +14,15 @@ function defaultErrorHandler(e){
 }
 
 /**
- *  Safari doesn`t have URL attr yet, instead it works with webkitURL
+ *  Safari doesn't have URL attr yet, instead it works with webkitURL
  *
  **/
-function getUrl( w ){
-    return ("URL" in w) ? w.URL : w.webkitURL;
+function getUrl(){
+    return "URL" in w ? w.URL : w.webkitURL;
 }
 
 function jThread( fn ){
-    var bb, blobURL, workerBody;
+    var bb, workerBody;
 
     if(typeof fn !== "function"){
         throw new TypeError("You must send a function as an argument");
@@ -30,9 +30,9 @@ function jThread( fn ){
 
     workerBody = [ 'addEventListener("message",' + fn.toString() + ',false);' ];
     bb = new Blob( workerBody, { type : "text/javascript" } );
-    blobURL = getUrl(w).createObjectURL( bb );
 
-    this.thread = new Worker( blobURL );
+    this.blobURL = getUrl().createObjectURL( bb );
+    this.thread = new Worker( this.blobURL );
     this.thread.addEventListener("error", defaultErrorHandler, false);
 }
 
@@ -48,17 +48,15 @@ jThread.prototype = {
         this.thread.addEventListener( "error", fn , false );
     },
 
-    start: function(){
+    start: function( data ){
         //Firefox doesn't allow to send postMessage without args
-        this.thread.postMessage( null );
-    },
-
-    sendData: function( data ){
+        data = data || null;
         this.thread.postMessage( data );
     },
 
     kill: function(){
         this.thread.terminate();
+        getUrl().revokeObjectUrl( this.blobURL );
     }
 };
 
