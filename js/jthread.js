@@ -51,6 +51,10 @@ jThread.prototype = {
     start: function( data ){
         //Firefox doesn't allow to send postMessage without args
         data = data || null;
+        this.send( data );
+    },
+
+    send: function( data ){
         this.thread.postMessage( data );
     },
 
