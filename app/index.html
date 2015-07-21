@@ -7,11 +7,13 @@
         <script>
             var thread = new jThread(function(e){
                 for(var i = 0; i < 10; i++){
+                    console.log('eaea');
                     this.postMessage("foo div #" + i);
                 }
             });
 
             thread.notify(function(e){
+                console.log('sadsa');
                 var div = document.createElement("div");
                 div.innerHTML = e.data;
 
