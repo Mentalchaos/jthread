@@ -1,0 +1,11 @@
+{
+  "name": "jthread",
+  "dependencies": {
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {
+    "gulp-jshint": "^1.11.2",
+    "gulp-live-server": "0.0.23",
+    "gulp-uglify": "^1.2.0"
+  }
+}
