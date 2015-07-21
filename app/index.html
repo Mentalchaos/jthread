@@ -5,7 +5,7 @@
         <title>jThread example</title>
         <script src="jthread.js"></script>
         <script>
-            var thread = new jThread(function(e){
+            var thread = jthread(function(e){
                 for(var i = 0; i < 10; i++){
                     console.log('eaea');
                     this.postMessage("foo div #" + i);
@@ -18,9 +18,7 @@
                 div.innerHTML = e.data;
 
                 document.querySelector("body").appendChild(div);
-            });
-
-            thread.start();
+            }).send();
         </script>
     </head>
     <body>

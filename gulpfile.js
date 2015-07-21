@@ -2,6 +2,8 @@
 var gulp = require('gulp');
 var gls = require('gulp-live-server');
 var jshint = require('gulp-jshint');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 var tasks, server;
 
 tasks = {
@@ -15,6 +17,10 @@ tasks = {
   //compress js files
   compress: function(){
     console.log('compressing file');
+    return gulp.src('./js/jthread.js')
+        .pipe(uglify())
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest('./js'));
   },
   //serving out server for testing purposes
   server: function(){
