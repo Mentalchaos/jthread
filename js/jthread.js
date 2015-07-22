@@ -4,12 +4,11 @@
  *  @version: 0.1
  **/
 (function(global){
-//Let's keep this commented until i see everything burning
-//global.URL = global.URL || global.webkitURL;
-
+'use strict';
+//taking all possible URL names that are available in browsers
+var URL = global.URL;
 /**
  *  default error handler
- *
  **/
 function defaultErrorHandler(e){
   throw new Error( 'ERROR: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message );
@@ -36,7 +35,7 @@ function jthread( fn ) {
 
     handleError: function( errorHandler ){
       worker.removeEventListener( 'error', defaultErrorHandler, false );
-      worker.addEventListener( 'error', fn , false );
+      worker.addEventListener( 'error', errorHandler , false );
       return this;
     },
 
