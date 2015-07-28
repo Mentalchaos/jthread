@@ -4,16 +4,64 @@
  *  @version: 0.1
  **/
 (function(global){
-//Let's keep this commented until i see everything burning
-//global.URL = global.URL || global.webkitURL;
+'use strict';
+
+/**
+ *  default wrapper to make worker function more powerful with ajax calls
+ **/
+function wrapper(func, ajax){
+  return function(evt){
+    func(evt, ajax);
+  };
+}
+
+/**
+ *  makes data in json sendable in ajax way
+ *  @param obj: data in JSON format
+ **/
+function compressData(obj){
+  return Object.keys(obj).map(function(key){
+    return key + '=' + obj[key];
+  }).join('&');
+}
 
 /**
  *  default error handler
- *
  **/
 function defaultErrorHandler(e){
   throw new Error( 'ERROR: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message );
 }
+
+
+//taking all possible URL names that are available in browsers
+var URL = global.URL;
+
+//object helper to make ajax requests
+var ajax = (function(){
+  var makeRequest = function(method){
+    var request = function(url, data, callback){
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      xhr.onreadystatechange = function(){
+        if(xhr.readyState !== 4){
+          return;
+        }
+
+        if(xhr.status === 200){
+          callback(JSON.parse(xhr.responseText));
+        }else{
+          throw new Error( 'Sorry about your request, it throw me ' + xhr.status + ' code' );
+        }
+      };
+
+      xhr.send(method === 'POST' ? compressData(data) : null);
+    };
+
+    return request;
+  };
+
+  return { get: makeRequest('GET'), post: makeRequest('POST') };
+})();
 
 function jthread( fn ) {
   var blob, workerBody, thread, blobURL, worker;
@@ -36,7 +84,7 @@ function jthread( fn ) {
 
     handleError: function( errorHandler ){
       worker.removeEventListener( 'error', defaultErrorHandler, false );
-      worker.addEventListener( 'error', fn , false );
+      worker.addEventListener( 'error', errorHandler , false );
       return this;
     },
 
