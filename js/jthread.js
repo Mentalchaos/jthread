@@ -1,5 +1,5 @@
 /**
- *  jThread, it allows to work with workers in a easier way than it does.
+ *  jthread, it allows to work with workers in a easier way than it does.
  *  @author: Sebastian Real
  *  @version: 0.1
  **/
