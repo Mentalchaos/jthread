@@ -1,7 +1,6 @@
-jthread
-=======
+# jthread
 
-Library to work with web workers more easy
+Library to work with web workers without other js file
 
 Contents
 -----
@@ -17,7 +16,7 @@ Contents
 working with jThread is easy as
 
 ```javascript
-var myThread = new jThread(function(e){
+var myThread = jthread(function(e){
   var i = 0;
 
   for(;i < 10; i++){
