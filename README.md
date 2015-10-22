@@ -1,7 +1,6 @@
-jthread
-=======
+# jthread
 
-Library to work with web workers more easy
+Library to work with web workers without other js file
 
 Contents
 -----
