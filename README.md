@@ -17,7 +17,7 @@ Contents
 working with jThread is easy as
 
 ```javascript
-var myThread = new jThread(function(e){
+var myThread = jthread(function(e){
   var i = 0;
 
   for(;i < 10; i++){
@@ -31,7 +31,7 @@ Now, to explain each section of this code we can separate in different sections:
 
 1.- to create a new instance of our thread:
 ```javascript
-var myThread = new jThread(function(e){
+var myThread = jthread(function(e){
   //..... rest of code to process data and blablabla....
 });
 ```
@@ -87,7 +87,7 @@ myThread.handleError(function(e){
 ##Finishing a Thread
 To terminate thread working process we can do inline our function like this
 ````javascript
-var myThread = new jThread(function(e){
+var myThread = jthread(function(e){
   var i = 0;
 
   for(;i < 10; i++){
