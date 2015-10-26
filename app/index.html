@@ -9,9 +9,7 @@
                 for(var i = 0; i < 10; i++){
                     this.postMessage("foo div #" + i);
                 }
-            });
-
-            thread.notify(function(e){
+            }).notify(function(e){
                 var div = document.createElement("div");
                 div.innerHTML = e.data;
 

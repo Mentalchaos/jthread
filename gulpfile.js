@@ -29,6 +29,7 @@ tasks = {
   },
   //watch for file changes
   watch: function(){
+    //server.start.bind(server)
     gulp.watch([ './js/jthread.js' ], [ 'lint', 'compress', server.start.bind(server)]);
   }
 };
