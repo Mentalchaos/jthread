@@ -5,9 +5,23 @@ var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var stylish = require('jshint-stylish');
+var exec = require('child_process').exec;
 var tasks, server;
 
+function realPath(path){
+  return './static/' + path;
+}
+
 tasks = {
+  startproject: function(){
+    [ 'css/components', 'images', 'fonts',
+      'js/actions', 'js/apps', 'js/bundles',
+      'js/components', 'js/services', 'js/stores',
+      'js/vendor', 'js/utils'
+    ].map(realPath).forEach(function(folderName){
+      exec('mkdir -p ' + folderName);
+    });
+  },
   //lint js file
   lint: function(){
     return gulp.src('./js/jthread.js')
@@ -38,4 +52,5 @@ gulp.task('lint', tasks.lint);
 gulp.task('compress', tasks.compress);
 gulp.task('server', tasks.server);
 gulp.task('watch', tasks.watch);
+gulp.task('startproject', tasks.startproject);
 gulp.task('default', [ 'server', 'lint', 'compress', 'watch' ]);

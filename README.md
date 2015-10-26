@@ -60,13 +60,13 @@ Starting our worker is easy as :
 we could send initial data as an argument to start method or send it empty
 
 ````javascript
-myThread.start(); //starting the worker without data associated to it
-myThread.start({ action : "code it", times : 10 }); //starting the worker with data associated to it
+myThread.send(); //starting the worker without data associated to it
+myThread.send({ action : "code it", times : 10 }); //starting the worker with data associated to it
 ````
 
 To send next times additional data we can use send method:
 ````javascript
-myThread.send("javascript is cool");
+myThread.send({ message: "javascript is cool" });
 ````
 
 
