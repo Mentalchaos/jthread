@@ -8,7 +8,7 @@ var stylish = require('jshint-stylish');
 var exec = require('child_process').exec;
 var tasks, server;
 
-// Hello :3!
+// Soy otro comentario
 function realPath(path){
   return './static/' + path;
 }
